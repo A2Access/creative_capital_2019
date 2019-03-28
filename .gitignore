@@ -58,5 +58,17 @@ tags
 /passenger*
 /node_modules*
 
-# Ignore all configurations for RubyMine
+# Editor directories and files
 .idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+/frontend/node_modules/
+/frontend/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
