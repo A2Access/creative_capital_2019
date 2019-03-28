@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_28_133335) do
+ActiveRecord::Schema.define(version: 2019_03_28_133700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "node_values", force: :cascade do |t|
+    t.bigint "node_id"
+    t.decimal "temperature", precision: 4, scale: 2
+    t.decimal "humidity", precision: 5, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_node_values_on_node_id"
+  end
 
   create_table "nodes", force: :cascade do |t|
     t.integer "device_id", null: false
