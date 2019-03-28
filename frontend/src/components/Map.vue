@@ -5,11 +5,13 @@
 </template>
 
 <script>
- import $ from 'jquery';
  import h337 from 'heatmap.js';
 
  export default {
-   mounted() {
+   created() {
+     this.$store.dispatch('fetchCurrent')
+   }
+   , mounted() {
      const heatmap = h337.create({
        container: this.$refs.heatmap
        /* , maxOpacity: 0.85

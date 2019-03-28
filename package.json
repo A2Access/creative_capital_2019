@@ -1,8 +1,0 @@
-{
-  "name": "heatmap",
-  "private": true,
-  "dependencies": {
-    "heatmap.js": "^2.0.5",
-    "jquery": "^3.3.1"
-  }
-}
