@@ -17,16 +17,17 @@ export default new Vuex.Store({
   }
   , actions: {
     fetchCurrent({ commit }, payload ) {
+      const data = { "query": "{ current { id title temperature } }" }
       jQuery
         .ajax({
           type: 'POST',
           url: 'http://localhost:3000/graphql',
           contentType: 'application/json',
           dataType: 'json',
-          data: { "query": "{ current { id title temperature } }" }
+          data: JSON.stringify(data)
         })
-        .done((data) => {
-          commit('updateNodes', data)
+        .done((payload) => {
+          commit('updateNodes', payload.data.current)
         })
         .fail(() => {
           console.log('fetch failed')
@@ -40,7 +41,20 @@ export default new Vuex.Store({
   }
   , getters: {
     newDataPoints: (state) => {
-      return state.nodes
+      return state.nodes.map((node) => {
+        return {
+          id: node.id
+          , value: Math.abs(node.temperature + 1) * random(4)
+          , x: node.id * 60
+          , y: node.id * 70
+          , radius: random(200)
+          , title: node.title
+        }
+      })
     }
   }
 })
+
+function random(max) {
+  return Math.round(Math.random() * max)
+}

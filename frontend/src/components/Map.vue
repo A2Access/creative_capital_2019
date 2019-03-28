@@ -1,7 +1,7 @@
 <template>
   <div id='map' ref="heatmap">
     <img src="@/assets/floor_map.png">
-    <div v-show="1 == 2">
+    <div v-show="1 == 1">
       {{ dataPoints }}
     </div>
   </div>
