@@ -1,6 +1,6 @@
 <template>
   <div id='map' ref="heatmap">
-    <img src="@/assets/floor_map.png">
+    <img src="@/assets/floor_plan.png">
     <div v-show="1 == 1">
       {{ dataPoints }}
     </div>
@@ -45,7 +45,13 @@
 
 <style scoped>
  #map {
+   padding: 20px;
    height: 100%;
  }
+
+ #map img {
+   width: 100%
+ }
+ 
 </style>
 
