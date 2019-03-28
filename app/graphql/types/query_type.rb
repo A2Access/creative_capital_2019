@@ -3,7 +3,7 @@ module Types
     field :current, [NodeType], null: false
 
     def current
-      Node.all
+      Node.includes(:values).all
     end
   end
 end
