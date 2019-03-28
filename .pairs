@@ -1,0 +1,16 @@
+pairs:
+  bf: Bonaventura Fleischmann; boni
+  bh: Barnabas Hajzer; barna
+  hz: Zoltan Hegedus; zoltan
+  kk: Krisztian Kovacs; krisztian
+  ba: Balazs Andre; balazs
+  yt: Yoana Todorova; yoana
+  ec: Erik Csonka; erik
+  ep: Emese Padanyi; emese
+  ar: Attila Racz, attila
+email:
+  prefix: dev
+  domain: a2-access.com
+
+global: true
+
