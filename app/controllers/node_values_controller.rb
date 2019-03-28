@@ -10,7 +10,7 @@ class NodeValuesController < ApplicationController
   private
 
   def load_node
-    @node = Node.find(params[:node_id])
+    @node = Node.find_or_create_by(device_id: params[:node_id])
   end
 
   def node_value_params
