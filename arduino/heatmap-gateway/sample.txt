@@ -1,0 +1,15 @@
+nodeid: 100 temp: 25.20 humidity: 20.80
+nodeid: 100 temp: 25.20 humidity: 20.80
+nodeid: 100 temp: 25.10 humidity: 20.80
+nodeid: 100 temp: 25.10 humidity: 20.80
+nodeid: 100 temp: 25.10 humidity: 20.80
+nodeid: 100 temp: 25.10 humidity: 20.80
+nodeid: 100 temp: 25.10 humidity: 20.80
+nodeid: 100 temp: 25.10 humidity: 20.90
+nodeid: 100 temp: 25.10 humidity: 20.90
+nodeid: 100 temp: 25.60 humidity: 54.80
+nodeid: 100 temp: nan humidity: nan
+nodeid: 100 temp: 26.00 humidity: 35.10
+nodeid: 100 temp: 25.90 humidity: 22.40
+nodeid: 100 temp: 27.00 humidity: 99.90
+
