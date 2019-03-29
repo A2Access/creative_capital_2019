@@ -27,7 +27,7 @@
 
      heatmap.setData({
        max: 5,
-       data: []
+       data: [{ x: 250, y: 250, value: 30, radius: 200 }]
      })
      setInterval(() => {
        this.$store.dispatch('fetchCurrent')
@@ -50,8 +50,8 @@
 <style scoped>
  #map {
    padding: 20px;
-   width: 100%;
-   height: 100%;
+   width: 1192px;
+   height: 470px;
  }
 
  #map img {
