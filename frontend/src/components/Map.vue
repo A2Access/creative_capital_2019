@@ -47,11 +47,11 @@
  #map {
    padding: 20px;
    width: 100%;
+   height: 100%;
  }
 
  #map img {
    width: 100%;
-   height: 100%;
  }
  
 </style>
