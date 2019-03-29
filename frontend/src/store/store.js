@@ -40,8 +40,8 @@ export default new Vuex.Store({
         return {
           id: node.id
           , value: node.temperature
-          , x: node.x * jQuery('#map').width()
-          , y: node.y * jQuery('#map').height()
+          , x: node.x
+          , y: node.y
           , radius: 200
           , title: node.title
         }
