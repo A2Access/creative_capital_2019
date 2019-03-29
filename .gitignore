@@ -21,16 +21,6 @@
 .DS_Store
 .~*
 dump.rdb
-app/assets/images/floor_plan.png
-app/assets/javascripts/app.js
-app/assets/javascripts/app.js.map
-app/assets/javascripts/manifest.js
-app/assets/javascripts/manifest.js.map
-app/assets/javascripts/vendor.js
-app/assets/javascripts/vendor.js.map
-app/assets/stylesheets/app.css
-app/assets/stylesheets/app.css.map
-app/assets/floor_plan.png
 
 /app/assets/images/icons-*.png
 /app/assets/images/oldie-*.png

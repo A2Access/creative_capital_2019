@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.css"],"names":[],"mappings":"AACA,KACE,aAAc,AACd,WAAa,CACd,AAED,sBACE,aAAc,AACd,WAAY,AACZ,WAAa,CACd,AACD,0BACE,UAAY,CACb","file":"app.css","sourcesContent":["\n#app {\n  height: 100vh;\n  width: 100vw;\n}\n\n#map[data-v-01be6230] {\n  padding: 20px;\n  width: 100%;\n  height: 100%;\n}\n#map img[data-v-01be6230] {\n  width: 100%;\n}\n\n"]}
