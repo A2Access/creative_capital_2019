@@ -46,11 +46,12 @@
 <style scoped>
  #map {
    padding: 20px;
-   height: 100%;
+   width: 100%;
  }
 
  #map img {
-   width: 100%
+   width: 100%;
+   height: 100%;
  }
  
 </style>
