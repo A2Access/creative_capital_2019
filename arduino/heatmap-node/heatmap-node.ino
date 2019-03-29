@@ -5,6 +5,11 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
+#include <Arduino.h>            // assumes Arduino IDE v1.0 or greater
+#include <avr/sleep.h>
+#include <avr/wdt.h>
+#include <avr/power.h>
+
 #define NODEID      100 // Current Node
 
 #define NETWORKID   10	// Network
@@ -36,8 +41,11 @@ DHT dht(DHTPIN, DHTTYPE);
 
 Payload theData;
 byte sendSize = 0;
-boolean requestACK = false;
-long lastPeriod = -1;
+
+//watchdog interrupt
+ISR (WDT_vect) {
+  wdt_disable();
+}
 
 void setup()
 {
@@ -51,6 +59,21 @@ void setup()
   Serial.print("Initializing radio... ");
   radio.initialize(FREQUENCY, NODEID, NETWORKID);
   radio.setPowerLevel(25);
+
+  radio.sleep();
+
+for (uint8_t i=0; i<=A5; i++)
+  {
+    if (i == RF69_SPI_CS) continue;
+
+    pinMode(i, OUTPUT);
+    digitalWrite(i, LOW);
+  }
+  
+  power_timer1_disable();
+  power_timer2_disable();
+  power_twi_disable();
+  
   Serial.println("OK");
 
   //radio.encrypt(KEY);
@@ -63,88 +86,82 @@ void setup()
 
 void loop()
 {
-  //check for any received packets
-  if (radio.receiveDone())
-  {
-    Serial.print('[');
-    Serial.print(radio.SENDERID, DEC);
-    Serial.print("] ");
-    for (byte i = 0; i < radio.DATALEN; i++) {
-      Serial.print((char)radio.DATA[i], DEC);
-      if (i < radio.DATALEN - 1) Serial.write(',');
-    }
-    Serial.print("   [RX_RSSI:");
-    Serial.print(radio.readRSSI());
-    Serial.print("]");
+// disable ADC
+  ADCSRA = 0;  
+  // clear various "reset" flags
+  MCUSR = 0;
+  // allow changes, disable reset
+  WDTCSR = bit (WDCE) | bit (WDE);
+  //set interrupt mode and an interval
+  WDTCSR = bit (WDIE) | bit (WDP3) | bit (WDP0); //set WDIE, and 8 seconds delay
+  wdt_reset(); //pat the dog...
+  
+  set_sleep_mode (SLEEP_MODE_PWR_DOWN);
+  noInterrupts(); // timed sequence follows  
+  sleep_enable();
 
-    if (radio.ACKRequested())
-    {
-      radio.sendACK();
-      Serial.print(" - ACK sent");
-      delay(10);
-    }
-    Serial.println();
+  // turn off brown-out enable in software
+  // BODS must be set to one and BODSE must be set to zero within four clock cycles
+  MCUCR = bit (BODS) | bit (BODSE);
+  // The BODS bit is automatically cleared after three clock cycles
+  MCUCR = bit (BODS); 
+  interrupts();
+  sleep_cpu();
 
-    if ((char)(radio.DATA[0]) == 1 && (char)radio.DATA[1] > 0) {
-      TRANSMITPERIOD = (char)radio.DATA[1];
-      Serial.print("Setting timeout to ");
-      Serial.print((char)radio.DATA[1], DEC);
-      Serial.println("s");
-    }
+  //cancel sleep as a precaution
+  sleep_disable();
+
+  radio.sleep();
+
+  //digitalWrite(LED, HIGH);
+  // Reading temperature or humidity takes about 250 milliseconds!
+  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
+  float h = dht.readHumidity();
+  // Read temperature as Celsius (the default)
+  float t = dht.readTemperature();
+  Serial.println(t);
+
+
+  //digitalWrite(LED, LOW);
+
+  //fill in the struct with new values
+  theData.nodeId = NODEID;
+  theData.temperature = t;
+  theData.humidity = h;
+
+  Serial.print("Sending ");
+  Serial.print(sizeof(theData));
+  Serial.print(" bytes, ");
+  Serial.print("temp: ");
+  Serial.print(theData.temperature);
+  Serial.print(" humidity: ");
+  Serial.print(theData.humidity);
+  Serial.print("... ");
+  if (radio.sendWithRetry(GATEWAYID, (const void*)(&theData), sizeof(theData))) {
+    Serial.println(" ok!");
+    digitalWrite(LED, HIGH);
+    delay(150);
+    digitalWrite(LED, LOW);
+    delay(350);
+    digitalWrite(LED, HIGH);
+    delay(150);
+    digitalWrite(LED, LOW);
+
+  } else {
+    Serial.println(" nothing...");
+    digitalWrite(LED, HIGH);
+    delay(150);
+    digitalWrite(LED, LOW);
+    delay(350);
+    digitalWrite(LED, HIGH);
+    delay(150);
+    digitalWrite(LED, LOW);
+    delay(350);
+    digitalWrite(LED, HIGH);
+    delay(150);
+    digitalWrite(LED, LOW);
   }
-
-  int currPeriod = millis() / (TRANSMITPERIOD * 1000);
-  if (currPeriod != lastPeriod)
-  {
-    lastPeriod = currPeriod;
-
-    //digitalWrite(LED, HIGH);
-    // Reading temperature or humidity takes about 250 milliseconds!
-    // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-    float h = dht.readHumidity();
-    // Read temperature as Celsius (the default)
-    float t = dht.readTemperature();
-    Serial.println(t);
-
-
-    //digitalWrite(LED, LOW);
-
-    //fill in the struct with new values
-    theData.nodeId = NODEID;
-    theData.temperature = t;
-    theData.humidity = h;
-
-    Serial.print("Sending ");
-    Serial.print(sizeof(theData));
-    Serial.print(" bytes, ");
-    Serial.print("temp: ");
-    Serial.print(theData.temperature);
-    Serial.print(" humidity: ");
-    Serial.print(theData.humidity);
-    Serial.print("... ");
-    if (radio.sendWithRetry(GATEWAYID, (const void*)(&theData), sizeof(theData))) {
-      Serial.println(" ok!");
-      digitalWrite(LED, HIGH);
-      delay(150);
-      digitalWrite(LED, LOW);
-      delay(350);
-      digitalWrite(LED, HIGH);
-      delay(150);
-      digitalWrite(LED, LOW);
-
-    } else {
-      Serial.println(" nothing...");
-      digitalWrite(LED, HIGH);
-      delay(150);
-      digitalWrite(LED, LOW);
-      delay(350);
-      digitalWrite(LED, HIGH);
-      delay(150);
-      digitalWrite(LED, LOW);
-      delay(350);
-      digitalWrite(LED, HIGH);
-      delay(150);
-      digitalWrite(LED, LOW);
-    }
-  }
+  
+  radio.sleep();
+  
 }
