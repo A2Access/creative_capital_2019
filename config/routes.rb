@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'welcome/index'
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
@@ -8,4 +9,6 @@ Rails.application.routes.draw do
   resources :nodes do
     resource :data, controller: :node_values, only: :create
   end
+
+  root 'welcome#index'
 end
