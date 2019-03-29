@@ -21,7 +21,7 @@ export default new Vuex.Store({
       jQuery
         .ajax({
           type: 'POST',
-          url: 'http://localhost:3000/graphql',
+          url: '/graphql',
           contentType: 'application/json',
           dataType: 'json',
           data: JSON.stringify(data)
