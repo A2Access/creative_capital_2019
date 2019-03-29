@@ -16,7 +16,7 @@ module Types
     end
 
     def y
-      object.x.to_f
+      object.y.to_f
     end
   end
 end
