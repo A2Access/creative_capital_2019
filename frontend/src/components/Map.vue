@@ -50,7 +50,6 @@
 
 <style scoped>
  #map {
-   padding: 20px;
    width: 1192px;
    height: 470px;
  }
