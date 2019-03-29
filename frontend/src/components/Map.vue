@@ -27,7 +27,7 @@
 
      heatmap.setData({
        max: 5,
-       data: [{x:200, y:150, value: 3, radius: 200}, {x:210, y:200, value: 3, radius: 150}]
+       data: []
      })
      setInterval(() => {
        this.$store.dispatch('fetchCurrent')
