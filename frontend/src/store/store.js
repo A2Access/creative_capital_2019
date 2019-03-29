@@ -17,7 +17,7 @@ export default new Vuex.Store({
   }
   , actions: {
     fetchCurrent({ commit }, payload ) {
-      const data = { "query": "{ current { id title temperature } }" }
+      const data = { "query": "{ current { id title temperature  } }" }
       jQuery
         .ajax({
           type: 'POST',
@@ -44,10 +44,10 @@ export default new Vuex.Store({
       return state.nodes.map((node) => {
         return {
           id: node.id
-          , value: Math.abs(node.temperature + 1) * random(4)
+          , value: node.temperature
           , x: node.id * 60
           , y: node.id * 70
-          , radius: random(200)
+          , radius: 200
           , title: node.title
         }
       })

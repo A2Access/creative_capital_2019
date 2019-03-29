@@ -1,6 +1,6 @@
 <template>
   <div id='map' ref="heatmap">
-    <img src="@/assets/floor_plan.png">
+    <img :src="imageUrl">
     <div v-show="1 == 1">
       {{ dataPoints }}
     </div>
@@ -13,7 +13,12 @@
  let heatmap
 
  export default {
-   mounted() {
+   data() {
+     return {
+       imageUrl: window.floorPlanPath
+     }
+   }
+   , mounted() {
      heatmap = h337.create({
        container: this.$refs.heatmap
        /* , maxOpacity: 0.85
