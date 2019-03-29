@@ -37,7 +37,8 @@
      dataPoints() {
        if (heatmap) {
          heatmap.setData({
-           max: 35,
+           min: 22,
+           max: 27,
            data: this.$store.getters.newDataPoints
          })
        }
