@@ -35,7 +35,6 @@
    }
    , computed: {
      dataPoints() {
-       console.log('jo')
        if (heatmap) {
          heatmap.setData({
            max: 35,
@@ -58,6 +57,4 @@
  #map img {
    width: 100%;
  }
- 
 </style>
-

@@ -17,7 +17,7 @@ export default new Vuex.Store({
   }
   , actions: {
     fetchCurrent({ commit }, payload ) {
-      const data = { "query": "{ current { id title temperature  } }" }
+      const data = { "query": "{ current { id title temperature x y } }" }
       jQuery
         .ajax({
           type: 'POST',
@@ -31,11 +31,6 @@ export default new Vuex.Store({
         })
         .fail(() => {
           console.log('fetch failed')
-          const data = [
-            { id: 1, title: 'Receptionst desk', temp: 25, x: 200, y: 150, value: 15, radius: 50 }
-            , { id: 2, title: 'Raccoons corner', temp: 27, x: 240, y: 250, value: 35, radius: 40 }
-          ]
-          commit('updateNodes', data)
         })
     }
   }
@@ -45,8 +40,8 @@ export default new Vuex.Store({
         return {
           id: node.id
           , value: node.temperature
-          , x: node.id * 60
-          , y: node.id * 70
+          , x: node.x * jQuery(window).width()
+          , y: node.y * jQuery(window).height()
           , radius: 200
           , title: node.title
         }
